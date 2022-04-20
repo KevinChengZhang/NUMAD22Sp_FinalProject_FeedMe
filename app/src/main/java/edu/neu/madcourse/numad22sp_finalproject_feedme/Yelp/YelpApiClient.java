@@ -16,29 +16,29 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class YelpApi {
-    private static final String TAG = "YelpAPI";
+public class YelpApiClient {
+    private static final String TAG = "YelpAPIClient";
 
-    private String base = "https://api.yelp.com/v3/businesses/search?";
     // I personally don't mind if this is exposed, but feel free to move it to a better place
     private String apiKey = "HBD2H-YxkqKy917O4ps7Ndp5XjirUXe3MpuCjo6bmx5RLXCgGoc-NtmrRh6IUkJU95R8i-aL4Rqfbsk9GdHBoR4DwvTGBbnR72tVrdLeZtUpWGt4MuezSq0VOzUQYXYx";
     private HttpURLConnection conn;
     private List<YelpBusiness> businesses;
 
-    public YelpApi() {
+    public YelpApiClient() {
         businesses = new ArrayList<YelpBusiness>();
     }
 
     /**
-     * Get the first 50 businesses in Yelp Search.
+     * Get the first 20 businesses in Yelp Search.
      * Yelp Business Search Docs: https://www.yelp.com/developers/documentation/v3/business_search
      * @param term the search term
      * @param location the geographic area to be used when searching for businesses
      * @param price the pricing levels to filter the search result with: 1 = $, 2 = $$, 3 = $$$, 4 = $$$$.
-     *              The price filter can be a list of comma delimited pricing levels.
+     *              The price filter can be a list of comma delimited pricing levels. Ex. '1, 2, 3'
      * @return An array list of Yelp Businesses from Yelp API search result
      */
     public List<YelpBusiness> getBusinesses(String term, String location, String price) {
+        String base = "https://api.yelp.com/v3/businesses/search?";
         BufferedReader reader;
         String line;
         StringBuilder responseContent = new StringBuilder();
@@ -81,6 +81,7 @@ public class YelpApi {
             e.printStackTrace();
         }
 
+        Log.e(TAG, businesses.toString());
         return businesses;
     }
 

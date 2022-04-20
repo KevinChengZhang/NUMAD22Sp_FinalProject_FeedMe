@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">NUMAD22Sp_FinalProject_FeedMe</string>
+    <string name="yelp">Yelp</string>
+    <string name="cuisine">Cuisine</string>
+    <string name="location">Location</string>
+    <string name="search">Search</string>
+    <string name="currency_4">$$$$</string>
+    <string name="currency_3">$$$</string>
+    <string name="currency_2">$$</string>
+    <string name="currency_1">$</string>
 </resources>

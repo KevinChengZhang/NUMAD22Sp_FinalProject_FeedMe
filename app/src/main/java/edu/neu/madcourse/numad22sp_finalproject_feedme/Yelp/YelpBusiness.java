@@ -1,13 +1,19 @@
 package edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp;
 
+import android.util.Log;
+
+import androidx.lifecycle.ViewModelProvider;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class YelpBusiness {
+    private String TAG = "YelpBusiness";
     private double rating;
     private String price;
     private String phone;
@@ -39,8 +45,8 @@ public class YelpBusiness {
             distance = business.getDouble("distance");
 
             categories = new HashMap<String, String>();
-            categories.put("alias", business.getJSONObject("categories").getString("alias"));
-            categories.put("title", business.getJSONObject("categories").getString("title"));
+            categories.put("alias", business.getJSONArray("categories").getJSONObject(0).getString("alias"));
+            categories.put("title", business.getJSONArray("categories").getJSONObject(0).getString("title"));
 
             coordinates = new HashMap<String, String>();
             categories.put("latitude", business.getJSONObject("coordinates").getString("latitude"));
@@ -56,10 +62,13 @@ public class YelpBusiness {
             location.put("zip_code", business.getJSONObject("location").getString("zip_code"));
 
             // Probably an easier and more efficient way by using Jackson
+            transactions = new ArrayList<String>();
             JSONArray jsonTransactions = business.getJSONArray("transactions");
             for (int i = 0; i < jsonTransactions.length(); i++) {
                 transactions.add(jsonTransactions.get(i).toString());
             }
+
+            Log.e(TAG, "Business created: " + this.name);
 
         } catch (JSONException e) {
             e.printStackTrace();
