@@ -65,4 +65,64 @@ public class YelpBusiness {
             e.printStackTrace();
         }
     }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public boolean isClosed() {
+        return isClosed;
+    }
+
+    public HashMap<String, String> getCategories() {
+        return categories;
+    }
+
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public HashMap<String, String> getCoordinates() {
+        return coordinates;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public HashMap<String, String> getLocation() {
+        return location;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public List<String> getTransactions() {
+        return transactions;
+    }
 }

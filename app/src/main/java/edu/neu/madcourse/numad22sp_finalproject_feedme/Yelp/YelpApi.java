@@ -20,6 +20,7 @@ public class YelpApi {
     private static final String TAG = "YelpAPI";
 
     private String base = "https://api.yelp.com/v3/businesses/search?";
+    // I personally don't mind if this is exposed, but feel free to move it to a better place
     private String apiKey = "HBD2H-YxkqKy917O4ps7Ndp5XjirUXe3MpuCjo6bmx5RLXCgGoc-NtmrRh6IUkJU95R8i-aL4Rqfbsk9GdHBoR4DwvTGBbnR72tVrdLeZtUpWGt4MuezSq0VOzUQYXYx";
     private HttpURLConnection conn;
     private List<YelpBusiness> businesses;
