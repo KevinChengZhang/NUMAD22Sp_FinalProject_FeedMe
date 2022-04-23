@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "778981517320",
+    "firebase_url": "https://feed-me-a18b7-default-rtdb.firebaseio.com",
+    "project_id": "feed-me-a18b7",
+    "storage_bucket": "feed-me-a18b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778981517320:android:f09a55daf2914ed16049bd",
+        "android_client_info": {
+          "package_name": "edu.neu.madcourse.numad22sp_finalproject_feedme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "778981517320-s3u6eja00hlcf8fhdqbfaqa2ejiomuf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnoa4LtOFwkO6UxN95wWnMvYxiJIsMEFc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "778981517320-s3u6eja00hlcf8fhdqbfaqa2ejiomuf5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
