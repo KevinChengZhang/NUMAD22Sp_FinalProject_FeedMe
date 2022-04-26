@@ -2,6 +2,7 @@ package edu.neu.madcourse.numad22sp_finalproject_feedme;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -12,16 +13,22 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import edu.neu.madcourse.numad22sp_finalproject_feedme.UserProfile.UserProfile;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpApiClient;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpBusiness;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "YelpActivity";
     private YelpApiClient yelpApiClient;
+
+    private String userEmail = "";
 
     private HashMap<Integer, String> priceRange = new HashMap<Integer, String>();
     private String wanted_price;
@@ -31,11 +38,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText location;
     private TextView result;
     private ProgressBar progressBar;
+    private Button profileButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userEmail = getIntent().getStringExtra("USER_EMAIL");
+
         setContentView(R.layout.activity_main);
 
         // Add all possible prices in Yelp business search
@@ -55,12 +66,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         CheckBox price3 = findViewById(R.id.yelp_price_3);
         CheckBox price4 = findViewById(R.id.yelp_price_4);
         Button search = findViewById(R.id.yelp_search);
+        Button profileButton = findViewById(R.id.profileButton);
 
         price1.setOnClickListener(this);
         price2.setOnClickListener(this);
         price3.setOnClickListener(this);
         price4.setOnClickListener(this);
         search.setOnClickListener(this);
+        profileButton.setOnClickListener(this);
 
         cuisine = findViewById(R.id.yelp_cuisine_text);
         location = findViewById(R.id.yelp_location_text);
@@ -103,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 YelpSearch search = new YelpSearch();
                 progressBar.setVisibility(v.VISIBLE);
                 search.start();
+                break;
+
+            case R.id.profileButton:
+                Intent profileIntent = new Intent(this, UserProfile.class);
+                profileIntent.putExtra("USER_EMAIL", userEmail);
+                startActivity(profileIntent);
                 break;
         }
     }
