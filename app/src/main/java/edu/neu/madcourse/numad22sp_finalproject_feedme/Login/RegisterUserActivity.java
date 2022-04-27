@@ -21,6 +21,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.sql.Array;
+
 public class RegisterUserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;

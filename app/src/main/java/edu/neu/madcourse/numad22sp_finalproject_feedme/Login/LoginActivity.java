@@ -88,7 +88,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    MainIntent.putExtra("USER_EMAIL", email);
+                    startActivity(MainIntent);
                 } else {
                     Toast.makeText(LoginActivity.this, "Failed to login! Please check your credentials", Toast.LENGTH_LONG).show();
                 }
