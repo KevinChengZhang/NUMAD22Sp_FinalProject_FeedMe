@@ -1,5 +1,7 @@
 package edu.neu.madcourse.numad22sp_finalproject_feedme.UserProfile;
 
+import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpBusiness;
+
 public class YelpBusinessPreview {
     private String name, id, imageUrl;
     public YelpBusinessPreview() {
@@ -9,6 +11,11 @@ public class YelpBusinessPreview {
         this.name = name;
         this.id = id;
         this.imageUrl = imageUrl;
+    }
+    public YelpBusinessPreview(YelpBusiness fullBusiness) {
+        this.name = fullBusiness.getName();
+        this.imageUrl = fullBusiness.getImageUrl();
+        this.id = fullBusiness.getId();
     }
 
     public String getId() {
