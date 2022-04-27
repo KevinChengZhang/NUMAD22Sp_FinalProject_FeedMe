@@ -2,6 +2,7 @@ package edu.neu.madcourse.numad22sp_finalproject_feedme.UserProfile;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -41,8 +42,13 @@ public class UserProfile extends AppCompatActivity {
         fullNameTextView = findViewById(R.id.fullNameText);
         emailTextView = findViewById(R.id.emailText);
 
+        LinearLayoutManager recyclerLayout = new LinearLayoutManager(busListRecyclerView.getContext());
+        recyclerLayout.setOrientation(LinearLayoutManager.HORIZONTAL);
+        busListRecyclerView.setLayoutManager(recyclerLayout);
+
         adapter = new YelpPreviewAdapter(busList);
         busListRecyclerView.setAdapter(adapter);
+
         fetchUserProfileData(savedInstanceState);
     }
 
@@ -55,7 +61,7 @@ public class UserProfile extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     userProfile = snapshot.getValue(User.class);
-                    busList = userProfile.getFavorites();
+                    busList.addAll(userProfile.getFavorites());
                     updateProfile();
                 }
 
@@ -65,10 +71,10 @@ public class UserProfile extends AppCompatActivity {
                 }
             });
         }
-        adapter.notifyDataSetChanged();
     }
 
     private void updateProfile() {
+        adapter.notifyDataSetChanged();
         fullNameTextView.setText(userProfile.getFullName());
         emailTextView.setText(userProfile.getEmail());
     }

@@ -16,6 +16,7 @@ public class User {
         this.fullName = fullName;
         this.email = email;
         this.favorites = new ArrayList<>();
+        favorites.add(new YelpBusinessPreview());
     }
 
     public User(String fullName, String email, ArrayList<YelpBusinessPreview> favorites) {

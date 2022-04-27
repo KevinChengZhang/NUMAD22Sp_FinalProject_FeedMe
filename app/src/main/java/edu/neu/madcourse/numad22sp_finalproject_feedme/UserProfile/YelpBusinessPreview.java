@@ -5,7 +5,9 @@ import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpBusiness;
 public class YelpBusinessPreview {
     private String name, id, imageUrl;
     public YelpBusinessPreview() {
-
+        this.name = "Sample business";
+        this.id = "1";
+        this.imageUrl = "https://abc.com";
     }
     public YelpBusinessPreview(String name, String id, String imageUrl){
         this.name = name;

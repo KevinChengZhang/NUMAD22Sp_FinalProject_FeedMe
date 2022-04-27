@@ -21,8 +21,8 @@ public class YelpPreviewAdapter extends RecyclerView.Adapter<YelpPreviewAdapter.
         ImageView image;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.bus_name);
-            image = itemView.findViewById(R.id.bus_image);
+            name = (TextView) itemView.findViewById(R.id.bus_name);
+            //image = itemView.findViewById(R.id.bus_image);
         }
     }
 
@@ -49,5 +49,10 @@ public class YelpPreviewAdapter extends RecyclerView.Adapter<YelpPreviewAdapter.
     @Override
     public int getItemCount() {
         return busList.size();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 }
