@@ -11,12 +11,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/bus_image"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="160dp"-->
-<!--            tools:srcCompat="@tools:sample/avatars"-->
-<!--            android:contentDescription="Yelp business image" />-->
+        <ImageView
+            android:id="@+id/bus_image"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            tools:srcCompat="@tools:sample/avatars"
+            android:contentDescription="Yelp business image" />
 
         <TextView
             android:id="@+id/bus_name"

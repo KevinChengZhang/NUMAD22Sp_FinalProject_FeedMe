@@ -22,7 +22,7 @@ public class YelpPreviewAdapter extends RecyclerView.Adapter<YelpPreviewAdapter.
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.bus_name);
-            //image = itemView.findViewById(R.id.bus_image);
+            image = itemView.findViewById(R.id.bus_image);
         }
     }
 
