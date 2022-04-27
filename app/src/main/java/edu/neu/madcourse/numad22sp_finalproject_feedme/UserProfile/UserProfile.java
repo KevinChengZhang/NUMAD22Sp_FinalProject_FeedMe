@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,10 +23,11 @@ import edu.neu.madcourse.numad22sp_finalproject_feedme.Login.User;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.R;
 
 public class UserProfile extends AppCompatActivity {
-    private String userEmail = "";
     private User userProfile;
     private List<YelpBusinessPreview> busList = new ArrayList<>();
     private YelpPreviewAdapter adapter;
+    TextView fullNameTextView;
+    TextView emailTextView;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users")
             .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     private static final String PROFILE_KEY = "PROFILE_KEY";
@@ -36,6 +38,9 @@ public class UserProfile extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         RecyclerView busListRecyclerView = findViewById(R.id.recyclerView);
+        fullNameTextView = findViewById(R.id.fullNameText);
+        emailTextView = findViewById(R.id.emailText);
+
         adapter = new YelpPreviewAdapter(busList);
         busListRecyclerView.setAdapter(adapter);
         fetchUserProfileData(savedInstanceState);
@@ -51,6 +56,7 @@ public class UserProfile extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     userProfile = snapshot.getValue(User.class);
                     busList = userProfile.getFavorites();
+                    updateProfile();
                 }
 
                 @Override
@@ -58,11 +64,12 @@ public class UserProfile extends AppCompatActivity {
 
                 }
             });
-            //TODO CONTINUE HERE
         }
-        // populate user profile
-        // populate busList
-
         adapter.notifyDataSetChanged();
+    }
+
+    private void updateProfile() {
+        fullNameTextView.setText(userProfile.getFullName());
+        emailTextView.setText(userProfile.getEmail());
     }
 }

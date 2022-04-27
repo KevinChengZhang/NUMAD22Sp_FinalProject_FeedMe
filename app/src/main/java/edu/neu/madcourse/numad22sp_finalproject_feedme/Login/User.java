@@ -18,6 +18,12 @@ public class User {
         this.favorites = new ArrayList<>();
     }
 
+    public User(String fullName, String email, ArrayList<YelpBusinessPreview> favorites) {
+        this.fullName = fullName;
+        this.email = email;
+        this.favorites = favorites;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }

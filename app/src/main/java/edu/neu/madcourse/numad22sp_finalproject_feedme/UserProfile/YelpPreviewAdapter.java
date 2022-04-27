@@ -42,8 +42,8 @@ public class YelpPreviewAdapter extends RecyclerView.Adapter<YelpPreviewAdapter.
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         YelpBusinessPreview bus = busList.get(position);
         holder.name.setText(bus.getName());
-        // fetch image from url
-        // set drawable to image holder
+        // TODO fetch image from url
+        // TODO set drawable to image holder
     }
 
     @Override
