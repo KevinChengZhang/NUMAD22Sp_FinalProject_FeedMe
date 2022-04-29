@@ -1,7 +1,8 @@
 package edu.neu.madcourse.numad22sp_finalproject_feedme.Friends;
 
 public class FindFriends {
-    public String fullName, email;
+    public String fullName;
+    public String email;
 
     /*
     default constructor
