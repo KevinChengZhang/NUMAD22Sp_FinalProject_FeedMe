@@ -4,9 +4,7 @@ public class FindFriends {
     public String fullName;
     public String email;
 
-    /*
-    default constructor
-     */
+    // default constructor
     public FindFriends() {
 
     }

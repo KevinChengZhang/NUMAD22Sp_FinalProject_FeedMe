@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import edu.neu.madcourse.numad22sp_finalproject_feedme.Friends.FindFriendsActivity;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.UserProfile.UserProfile;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpApiClient;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpBusiness;
@@ -127,12 +128,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 profileIntent.putExtra("USER_EMAIL", userEmail);
                 startActivity(profileIntent);
                 break;
-            /*case R.id.friendsButton:
-                Intent friendsIntent = new Intent(this, FriendsFeed.class);
+            case R.id.friendsButton:
+                // friends button shouldn't go directly to find friends, change later
+                Intent friendsIntent = new Intent(this, FindFriendsActivity.class);
                 startActivity(friendsIntent);
                 break;
 
-             */
+
         }
     }
 
