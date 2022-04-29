@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -130,19 +131,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void run() {
+            yelpApiClient = new YelpApiClient();
             List<YelpBusiness> bus = yelpApiClient.getBusinesses(cuisine.getText().toString(), location.getText().toString(), wanted_price);
 
             // In this basic yelp api implementation, yelp will return the same JSON every time
             // if the parameters aren't changed.
-            int rng = new Random().nextInt(bus.size());
+            Log.e(TAG, "SIZE OF BUS for RANDO:" + bus.size());
+            if (bus.size() <= 0) {
+                runOnUiThread(() -> {
+                    CharSequence tryAgain = "Failed to retrieve restaurants. Please try again";
+                    Toast toast = Toast.makeText(getApplicationContext(), tryAgain, Toast.LENGTH_LONG);
+                    runOnUiThread(() -> toast.show());
+                    progressBar.setVisibility(View.INVISIBLE);
+                });
+            } else {
+                int rng = new Random().nextInt(bus.size());
 
-            resultHandler.post(() -> {
-                progressBar.setVisibility(View.INVISIBLE);
+                resultHandler.post(() -> {
+                    progressBar.setVisibility(View.INVISIBLE);
 
-                // Randomly pick a business from a returned JSON
-                String bus_name = bus.get(rng).getName();
-                result.setText("Result: " + bus_name);
-            });
+                    // Randomly pick a business from a returned JSON
+                    String bus_name = bus.get(rng).getName();
+                    result.setText("Result: " + bus_name);
+                });
+            }
         }
     }
 
@@ -151,4 +163,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String new_price = (checked) ? Integer.toString(price) : "";
         priceRange.put(price, new_price);
     }
+
 }
