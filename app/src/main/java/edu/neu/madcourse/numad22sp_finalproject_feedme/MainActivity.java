@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView result;
     private ProgressBar progressBar;
     private Button profileButton;
+    private Button friendsButton;
 
 
     @Override
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         CheckBox price4 = findViewById(R.id.yelp_price_4);
         Button search = findViewById(R.id.yelp_search);
         Button profileButton = findViewById(R.id.profileButton);
+        Button friendsButton = findViewById(R.id.friendsButton);
 
         price1.setOnClickListener(this);
         price2.setOnClickListener(this);
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         price4.setOnClickListener(this);
         search.setOnClickListener(this);
         profileButton.setOnClickListener(this);
+        friendsButton.setOnClickListener(this);
 
         cuisine = findViewById(R.id.yelp_cuisine_text);
         location = findViewById(R.id.yelp_location_text);
@@ -123,6 +126,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 profileIntent.putExtra("USER_EMAIL", userEmail);
                 startActivity(profileIntent);
                 break;
+            /*case R.id.friendsButton:
+                Intent friendsIntent = new Intent(this, FriendsFeed.class);
+                startActivity(friendsIntent);
+                break;
+
+             */
         }
     }
 
