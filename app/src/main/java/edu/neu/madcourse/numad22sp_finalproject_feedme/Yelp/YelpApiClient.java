@@ -49,11 +49,16 @@ public class YelpApiClient {
             Log.e(TAG, String.valueOf(url));
 
             conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
             conn.addRequestProperty("Authorization", "Bearer " + apiKey);
-            conn.setConnectTimeout(5000);
-            conn.setReadTimeout(5000);
+            conn.setRequestMethod("GET");
+//            conn.setConnectTimeout(5000);
+//            conn.setReadTimeout(5000);
             Log.e(TAG, "status code for yelp api: "+ conn.getResponseCode());
+
+            if (conn.getResponseCode() != 200) {
+                return businesses;
+            }
 
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             while ((line = reader.readLine()) != null) {
