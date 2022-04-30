@@ -23,9 +23,15 @@ public class YelpApiClient {
     private String apiKey = "HBD2H-YxkqKy917O4ps7Ndp5XjirUXe3MpuCjo6bmx5RLXCgGoc-NtmrRh6IUkJU95R8i-aL4Rqfbsk9GdHBoR4DwvTGBbnR72tVrdLeZtUpWGt4MuezSq0VOzUQYXYx";
     private HttpURLConnection conn;
     private List<YelpBusiness> businesses;
+    private List<String> sortByOptions;
 
     public YelpApiClient() {
         businesses = new ArrayList<YelpBusiness>();
+        sortByOptions = new ArrayList<String>();
+        sortByOptions.add("best_match");
+        sortByOptions.add("rating");
+        sortByOptions.add("review_count");
+        sortByOptions.add("distance");
     }
 
     /**
@@ -37,15 +43,20 @@ public class YelpApiClient {
      *              The price filter can be a list of comma delimited pricing levels. Ex. '1, 2, 3'
      * @return An array list of Yelp Businesses from Yelp API search result
      */
-    public List<YelpBusiness> getBusinesses(String term, String location, String price) {
+    public List<YelpBusiness> getBusinesses(String term, String location, String price, String sortBy) {
         String base = "https://api.yelp.com/v3/businesses/search?";
         BufferedReader reader;
         String line;
         StringBuilder responseContent = new StringBuilder();
 
+        // if given sortBy is not a supported option, give a best match search
+        if (!sortByOptions.contains(sortBy)) {
+            sortBy = "best_match";
+        }
+
         try{
             Log.e(TAG, "Running HTTP GET Request...");
-            URL url = new URL(String.format(base + "term=%s&location=%s&price=%s", term, location, price));
+            URL url = new URL(String.format(base + "term=%s&location=%s&price=%s&sort_by=%s", term, location, price, sortBy));
             Log.e(TAG, String.valueOf(url));
 
             conn = (HttpURLConnection) url.openConnection();
@@ -90,4 +101,7 @@ public class YelpApiClient {
         return businesses;
     }
 
+    public List<YelpBusiness> getBusinesses(String term, String location, String price) {
+        return getBusinesses(term, location, price, "best_match");
+    }
 }
