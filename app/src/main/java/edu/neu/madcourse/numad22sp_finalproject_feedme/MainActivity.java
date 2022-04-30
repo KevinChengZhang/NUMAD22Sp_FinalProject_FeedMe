@@ -112,6 +112,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 for (int i : priceRange.keySet()) {
                     added_price = (priceRange.get(i).length() == 0) ? "" : priceRange.get(i) + ",";
                     wanted_price = wanted_price.concat(added_price);
+
+                    if (i == priceRange.keySet().size() && wanted_price.length() > 0) {
+                        wanted_price = wanted_price.substring(0, wanted_price.length() - 1);
+                    }
                 }
 
                 wanted_price = (wanted_price.length() > 0) ? wanted_price : "1,2,3,4";
