@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Conno/Desktop/XR/XR-Final-Project-OVR/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/drawable/divider.xml" value="0.1105" />
         <entry key="..\:/Users/Conno/Desktop/XR/XR-Final-Project-OVR/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/layout/activity_login.xml" value="0.540625" />
         <entry key="..\:/Users/Conno/Desktop/XR/XR-Final-Project-OVR/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/layout/activity_main.xml" value="0.5546875" />
+        <entry key="..\:/Users/Conno/Desktop/XR/XR-Final-Project-OVR/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/layout/activity_main_feed.xml" value="0.3140625" />
         <entry key="..\:/Users/Conno/Desktop/XR/XR-Final-Project-OVR/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/layout/activity_register_user.xml" value="0.5546875" />
+        <entry key="..\:/Users/Conno/Desktop/XR/XR-Final-Project-OVR/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/layout/filter_popup.xml" value="0.5546875" />
+        <entry key="..\:/Users/Conno/Desktop/XR/XR-Final-Project-OVR/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/layout/main_feed_card.xml" value="0.3140625" />
         <entry key="..\:/Users/imdan/AndroidStudioProjects/NUMAD22Sp_FinalProject_FeedMe/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/Users/imdan/AndroidStudioProjects/NUMAD22Sp_FinalProject_FeedMe/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/imdan/AndroidStudioProjects/NUMAD22Sp_FinalProject_FeedMe/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/layout/activity_register_user.xml" value="0.18" />
