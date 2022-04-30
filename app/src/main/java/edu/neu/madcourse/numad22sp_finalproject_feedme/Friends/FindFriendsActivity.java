@@ -1,12 +1,7 @@
 package edu.neu.madcourse.numad22sp_finalproject_feedme.Friends;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -19,6 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import edu.neu.madcourse.numad22sp_finalproject_feedme.R;
 
@@ -28,6 +28,7 @@ public class FindFriendsActivity extends AppCompatActivity {
     private EditText searchInputText;
 
     private RecyclerView searchResultList;
+    private FirebaseRecyclerAdapter<FindFriends, FindFriendsViewHolder> firebaseRecyclerAdapter;
 
     private DatabaseReference usersDatabaseRef;
 
@@ -42,6 +43,7 @@ public class FindFriendsActivity extends AppCompatActivity {
         searchResultList = (RecyclerView) findViewById(R.id.searchResultList);
         searchResultList.setHasFixedSize(true);
         searchResultList.setLayoutManager(new LinearLayoutManager(this));
+        searchForFriends("");
 
         searchInputText = (EditText) findViewById(R.id.searchBarInput);
 
@@ -56,6 +58,8 @@ public class FindFriendsActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void searchForFriends(String input) {
 
         Toast.makeText(this, "Finding friends...", Toast.LENGTH_LONG).show();
@@ -67,23 +71,25 @@ public class FindFriendsActivity extends AppCompatActivity {
                 .setQuery(searchFriendsQuery, FindFriends.class)
                 .build();
 
-
-        FirebaseRecyclerAdapter<FindFriends, FindFriendsViewHolder> firebaseRecyclerAdapter
-                = new FirebaseRecyclerAdapter<FindFriends, FindFriendsViewHolder>(options)
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<FindFriends, FindFriendsViewHolder>(options)
         {
             @Override
             protected void onBindViewHolder(@NonNull FindFriendsViewHolder holder, int position, @NonNull FindFriends model) {
                 holder.setFullName(model.getFullName());
                 holder.setEmail(model.getEmail());
+                System.out.println(model.getFullName());
             }
 
             @NonNull
             @Override
             public FindFriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return null;
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.activity_friends_display, parent, false);
+                return new FindFriendsViewHolder(view);
             }
         };
         searchResultList.setAdapter(firebaseRecyclerAdapter);
+        firebaseRecyclerAdapter.startListening();
     }
 
     public static class FindFriendsViewHolder extends RecyclerView.ViewHolder {
@@ -103,9 +109,13 @@ public class FindFriendsActivity extends AppCompatActivity {
             TextView emailTV = (TextView) mView.findViewById(R.id.emailTV);
             emailTV.setText(email);
         }
-
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseRecyclerAdapter.stopListening();
+    }
 }
 
 
