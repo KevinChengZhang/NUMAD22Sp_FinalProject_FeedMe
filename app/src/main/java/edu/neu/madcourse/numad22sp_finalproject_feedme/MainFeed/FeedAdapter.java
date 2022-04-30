@@ -22,11 +22,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedHolder> {
     private final List<YelpBusiness> businesses;
     private FeedItemListener listener;
 
-    public FeedAdapter(List<YelpBusiness> businesses) {
+    public FeedAdapter(List<YelpBusiness> businesses, FeedItemListener listener) {
         this.businesses = businesses;
-    }
-
-    public void setFeedItemListener(FeedItemListener listener) {
         this.listener = listener;
     }
 
@@ -42,6 +39,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedHolder> {
         YelpBusiness business = businesses.get(position);
 
         new DownloadImageFromInternet(holder.image).execute(business.getImageUrl());
+        String number = business.getPhone();
+        if(number.length() >= 12) {
+            holder.number.setText(String.format("(%s) %s-%s", number.substring(2, 5), number.substring(5, 8),
+                    number.substring(8, 12)));
+        }
         holder.title.setText(business.getName());
         holder.rating.setRating((float) business.getRating());
 
@@ -54,7 +56,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedHolder> {
 
         String address = business.getLocation().get("address1")
                 + ", "
-                + business.getLocation().get("state")
+                + business.getLocation().get("city")
                 + " "
                 + business.getLocation().get("zip_code");
         holder.address.setText(address);

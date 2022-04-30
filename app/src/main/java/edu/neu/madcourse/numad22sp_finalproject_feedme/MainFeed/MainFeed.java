@@ -24,6 +24,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -37,14 +38,18 @@ import java.util.stream.IntStream;
 public class MainFeed extends AppCompatActivity {
     private static final String TAG = "MainFeed";
     private RecyclerView recyclerView;
+    private List<YelpBusiness> businesses;
     private FeedAdapter feedAdapter;
     private Handler handler = new Handler();
     private RecyclerView.LayoutManager rLayoutManager;
     private AlertDialog alertDialog;
+    private ProgressBar progressBar;
+
+    String[] sortItemsAPIName = new String[]{"best_match", "rating", "review_count"};
     private String term = "korean";
     private String location = "boston";
     private String price = "1";
-    List<Boolean> states = Arrays.asList(true, true, true, true);
+    List<Boolean> states = Arrays.asList(true, false, false, false);
     private int sortInd = 0;
     private int distanceInd = 0;
     private int retrievalInd = 0;
@@ -54,6 +59,7 @@ public class MainFeed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
 
+        progressBar = findViewById(R.id.mainFeedProgressBar);
         initBusinesses();
         findViewById(R.id.filterButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +76,6 @@ public class MainFeed extends AppCompatActivity {
 
         Spinner sortBySpinner = contactPopupView.findViewById(R.id.sortBySpinner);
         String[] sortItems = new String[]{"Best Match", "Rating", "Review Count"};
-        String[] sortItemsAPIName = new String[]{"best_match", "rating", "review_count"};
         ArrayAdapter<String> sortAdapter = new ArrayAdapter<>(contactPopupView.getContext(), android.R.layout.simple_spinner_dropdown_item, sortItems);
         sortBySpinner.setAdapter(sortAdapter);
         sortBySpinner.setSelection(sortInd);
@@ -120,6 +125,7 @@ public class MainFeed extends AppCompatActivity {
                 }
                 String priceConformed = String.join(",", values);
                 price = priceConformed;
+                progressBar.setVisibility(View.VISIBLE);
                 new YelpSearch().start();
             }
         });
@@ -130,20 +136,32 @@ public class MainFeed extends AppCompatActivity {
     private void initBusinesses() {
         new YelpSearch().start();
     }
-    private void initRecyclerView(List<YelpBusiness> businesses) {
+    private void initRecyclerView(List<YelpBusiness> inBusinesses) {
 
+        businesses = inBusinesses;
+        progressBar.setVisibility(View.GONE);
         rLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.mainFeedRV);
         recyclerView.setHasFixedSize(true);
 
-        feedAdapter = new FeedAdapter(businesses);
+        feedAdapter = new FeedAdapter(businesses, new FeedItemListener() {
+            @Override
+            public void onItemClick(int position) {
+                // TODO:
+            }
+        });
 
         recyclerView.setAdapter(feedAdapter);
         recyclerView.setLayoutManager(rLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getDrawable(R.drawable.divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
-
+    }
+    private void refillRecyclerView(List<YelpBusiness> inBusinesses) {
+        businesses.clear();
+        businesses.addAll(inBusinesses);
+        feedAdapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
     }
     private class YelpSearch extends Thread {
 
@@ -151,7 +169,7 @@ public class MainFeed extends AppCompatActivity {
         @Override
         public void run() {
             YelpApiClient yelpApiClient = new YelpApiClient();
-            List<YelpBusiness> bus = yelpApiClient.getBusinesses(term, location, price);
+            List<YelpBusiness> bus = yelpApiClient.getBusinesses(term, location, price, sortItemsAPIName[sortInd]);
 
             // In this basic yelp api implementation, yelp will return the same JSON every time
             // if the parameters aren't changed.
@@ -161,12 +179,15 @@ public class MainFeed extends AppCompatActivity {
                     CharSequence tryAgain = "Failed to retrieve restaurants. Please try again";
                     Toast toast = Toast.makeText(getApplicationContext(), tryAgain, Toast.LENGTH_LONG);
                     runOnUiThread(() -> toast.show());
-                    //progressBar.setVisibility(View.INVISIBLE);
                 });
             } else {
 
                 handler.post(() -> {
-                    initRecyclerView(bus);
+                    if(recyclerView != null) {
+                        refillRecyclerView(bus);
+                    } else {
+                        initRecyclerView(bus);
+                    }
                 });
             }
         }
