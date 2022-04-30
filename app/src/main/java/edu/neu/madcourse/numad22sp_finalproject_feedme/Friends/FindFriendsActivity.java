@@ -5,8 +5,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -33,6 +33,7 @@ public class FindFriendsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("friends", "friends");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_friends);
 
@@ -63,7 +64,7 @@ public class FindFriendsActivity extends AppCompatActivity {
                 .startAt(input).endAt(input + "\uf8ff"); // \uf8ff is a java unicode escape character
 
         FirebaseRecyclerOptions<FindFriends> options = new FirebaseRecyclerOptions.Builder<FindFriends>()
-                .setQuery(usersDatabaseRef, FindFriends.class)
+                .setQuery(searchFriendsQuery, FindFriends.class)
                 .build();
 
 
@@ -104,6 +105,7 @@ public class FindFriendsActivity extends AppCompatActivity {
         }
 
     }
+
 }
 
 
