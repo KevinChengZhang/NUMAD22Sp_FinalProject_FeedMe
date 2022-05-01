@@ -17,17 +17,19 @@
         android:theme="@style/Theme.NUMAD22Sp_FinalProject_FeedMe"
         android:usesCleartextTraffic="true">
         <activity
+            android:screenOrientation="portrait"
             android:name=".Friends.ViewFriendActivity"
             android:exported="false" />
-                  />
         <activity
+            android:screenOrientation="portrait"
             android:name=".FriendFeed.FriendFeed"
             android:exported="false" />
-                  />
         <activity
+            android:screenOrientation="portrait"
             android:name=".MakeRecommendation.MakeRecommendationActivity"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".Login.LoginActivity"
             android:exported="true" >
 
@@ -39,12 +41,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".UserProfile.UserProfile"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".Login.RegisterUserActivity"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -54,9 +59,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".MainFeed.MainFeed"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
+            android:screenOrientation="portrait"
             android:name=".Friends.FindFriendsActivity"
             android:exported="false" />
     </application>
