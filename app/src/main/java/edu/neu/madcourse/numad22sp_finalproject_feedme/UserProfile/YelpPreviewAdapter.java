@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import edu.neu.madcourse.numad22sp_finalproject_feedme.MainFeed.FeedAdapter;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.R;
 
 public class YelpPreviewAdapter extends RecyclerView.Adapter<YelpPreviewAdapter.MyViewHolder> {
@@ -42,8 +43,7 @@ public class YelpPreviewAdapter extends RecyclerView.Adapter<YelpPreviewAdapter.
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         YelpBusinessPreview bus = busList.get(position);
         holder.name.setText(bus.getName());
-        // TODO fetch image from url
-        // TODO set drawable to image holder
+        new FeedAdapter.DownloadImageFromInternet(holder.image).execute(bus.getImageUrl());
     }
 
     @Override
