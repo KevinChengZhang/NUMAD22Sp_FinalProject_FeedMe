@@ -1,4 +1,5 @@
 package edu.neu.madcourse.numad22sp_finalproject_feedme.Friends;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +35,6 @@ public class FindFriendsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("friends", "friends");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_friends);
 
@@ -78,6 +78,15 @@ public class FindFriendsActivity extends AppCompatActivity {
                 holder.setFullName(model.getFullName());
                 holder.setEmail(model.getEmail());
                 System.out.println(model.getFullName());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(FindFriendsActivity.this, ViewFriendActivity.class);
+                        intent.putExtra("userKey", getRef(position).getKey().toString());
+                        startActivity(intent);
+                    }
+                });
             }
 
             @NonNull

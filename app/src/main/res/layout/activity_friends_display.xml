@@ -12,7 +12,7 @@
     >
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/user_profile_card"
+        android:id="@+id/profileImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@drawable/user_icon"
