@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
 
-                wanted_price = (wanted_price.length() > 0) ? wanted_price : "1,2,3,4";
+                wanted_price = (wanted_price.length() > 0) ? wanted_price.substring(0, wanted_price.length() - 1) : "1,2,3,4";
                 Log.e(TAG, "Wanted Prices : " + wanted_price);
 
                 // make a new thread
