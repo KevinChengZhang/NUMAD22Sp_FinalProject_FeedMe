@@ -17,8 +17,13 @@
         android:theme="@style/Theme.NUMAD22Sp_FinalProject_FeedMe"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Friends.ViewFriendActivity"
+            android:exported="false" />
+                  />
+        <activity
             android:name=".FriendFeed.FriendFeed"
             android:exported="false" />
+                  />
         <activity
             android:name=".MakeRecommendation.MakeRecommendationActivity"
             android:exported="false" />
