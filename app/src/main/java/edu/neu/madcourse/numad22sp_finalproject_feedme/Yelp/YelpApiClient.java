@@ -41,6 +41,7 @@ public class YelpApiClient {
      * @param location the geographic area to be used when searching for businesses
      * @param price the pricing levels to filter the search result with: 1 = $, 2 = $$, 3 = $$$, 4 = $$$$.
      *              The price filter can be a list of comma delimited pricing levels. Ex. '1, 2, 3'
+     * @param sortBy the preferred filter to sort businesses by
      * @return An array list of Yelp Businesses from Yelp API search result
      */
     public List<YelpBusiness> getBusinesses(String term, String location, String price, String sortBy) {
@@ -103,5 +104,76 @@ public class YelpApiClient {
 
     public List<YelpBusiness> getBusinesses(String term, String location, String price) {
         return getBusinesses(term, location, price, "best_match");
+    }
+
+    /**
+     * Get the first 20 businesses in Yelp Search.
+     * Yelp Business Search Docs: https://www.yelp.com/developers/documentation/v3/business_search
+     * @param term the search term
+     * @param latitude the latitude of the location
+     * @param longitude the longitude of the location
+     * @param price the pricing levels to filter the search result with: 1 = $, 2 = $$, 3 = $$$, 4 = $$$$.
+     *              The price filter can be a list of comma delimited pricing levels. Ex. '1, 2, 3'
+     * @param sortBy the preferred filter to sort businesses by
+     * @return An array list of Yelp Businesses from Yelp API search result
+     */
+    public List<YelpBusiness> getBusinesses(String term, double latitude, double longitude, String price, String sortBy) {
+        String base = "https://api.yelp.com/v3/businesses/search?";
+        BufferedReader reader;
+        String line;
+        StringBuilder responseContent = new StringBuilder();
+
+        // if given sortBy is not a supported option, give a best match search
+        if (!sortByOptions.contains(sortBy)) {
+            sortBy = "best_match";
+        }
+
+        try{
+            Log.e(TAG, "Running HTTP GET Request...");
+            URL url = new URL(String.format(base + "term=%s&latitude=%s&longitude=%s&price=%s&sort_by=%s", term, latitude, longitude, price, sortBy));
+            Log.e(TAG, String.valueOf(url));
+
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Accept", "application/json");
+            conn.addRequestProperty("Authorization", "Bearer " + apiKey);
+            conn.setRequestMethod("GET");
+            Log.e(TAG, "status code for yelp api: "+ conn.getResponseCode());
+
+            if (conn.getResponseCode() != 200) {
+                return businesses;
+            }
+
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+                System.out.println("line " + line);
+            }
+            reader.close();
+
+            JSONObject jObject =  new JSONObject(responseContent.toString());
+            JSONArray jsonArray = jObject.getJSONArray("businesses");
+
+            Log.e(TAG, String.valueOf(jsonArray));
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                YelpBusiness business = new YelpBusiness(jsonArray.getJSONObject(i));
+                businesses.add(business);
+            }
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.e(TAG, businesses.toString());
+        return businesses;
+    }
+
+    public List<YelpBusiness> getBusinesses(String term, double latitude, double longitude, String price) {
+        return getBusinesses(term,latitude,longitude,price,"best_match");
     }
 }
