@@ -82,16 +82,14 @@ public class MakeRecommendationActivity extends AppCompatActivity {
     private void InitSpinner() {
         String selfID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         recSpinner = findViewById(R.id.recSpinner);
-        FirebaseDatabase.getInstance().getReference("Users")
+        FirebaseDatabase.getInstance().getReference("Friends")
                 .child(selfID)
-                .child("Friends")
                 .get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     task.getResult().getChildren().forEach(entry -> {
                         friendIDs.add(entry.getKey());
-                        friendNames.add(entry.getValue(String.class));
-
+                        friendNames.add(entry.child("friendFullName").getValue(String.class));
                     });
                     ArrayAdapter<String> namesAdapter = new ArrayAdapter<String>(MakeRecommendationActivity.this, android.R.layout.simple_spinner_dropdown_item, friendNames);
                     recSpinner.setAdapter(namesAdapter);
@@ -131,6 +129,11 @@ public class MakeRecommendationActivity extends AppCompatActivity {
         if(!isInt(rating) || Integer.parseInt(rating) > 5 || Integer.parseInt(rating) < 0 ) {
             ratingET.setError("Invalid Rating: choose [0:5]");
             ratingET.requestFocus();
+            return;
+        }
+        if(recSpinner.getCount() == 0) {
+            Toast.makeText(getApplicationContext(),"You have no friends :(",
+                    Toast.LENGTH_LONG).show();
             return;
         }
 
