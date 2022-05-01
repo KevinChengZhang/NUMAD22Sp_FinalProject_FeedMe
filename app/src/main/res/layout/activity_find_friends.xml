@@ -9,31 +9,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Search for friends"
-        android:textSize="18sp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Search for Friends"
+        android:textAlignment="center"
+        android:textSize="24sp"
         android:textStyle="bold" />
+
 
     <EditText
         android:id="@+id/searchBarInput"
         android:layout_width="270dp"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_below="@id/searchBarTextView"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/search_bar"
         android:hint="Search"
         android:inputType="textMultiLine"
         android:padding="10dp" />
 
     <ImageButton
         android:id="@+id/searchButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_below="@id/searchBarTextView"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="-53dp"
+        android:layout_marginTop="31dp"
         android:layout_toEndOf="@id/searchBarInput"
         android:background="@drawable/search_icon" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchResultList"
@@ -42,7 +47,7 @@
         android:layout_below="@+id/searchButton"
         android:layout_alignParentStart="true"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp">
 
