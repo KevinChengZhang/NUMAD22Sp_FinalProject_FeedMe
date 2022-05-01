@@ -21,8 +21,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.sql.Array;
-
 public class RegisterUserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
@@ -39,15 +37,15 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
 
         mAuth = FirebaseAuth.getInstance();
 
-        appName = findViewById(R.id.appTitle);
+        appName = findViewById(R.id.recommendationTitle);
         appName.setOnClickListener(this);
 
         register = findViewById(R.id.registerButton);
         register.setOnClickListener(this);
 
         editTextName = findViewById(R.id.nameEditText);
-        editTextEmail = findViewById(R.id.emailEditText);
-        editTextPassword = findViewById(R.id.passwordEditText);
+        editTextEmail = findViewById(R.id.recName);
+        editTextPassword = findViewById(R.id.recRating);
 
         progressBar = findViewById(R.id.registerProgressbar);
 
@@ -56,7 +54,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.appTitle:
+            case R.id.recommendationTitle:
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
             case R.id.registerButton:

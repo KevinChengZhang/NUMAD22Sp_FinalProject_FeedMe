@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Random;
 
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Friends.FindFriendsActivity;
+import edu.neu.madcourse.numad22sp_finalproject_feedme.MainFeed.MainFeed;
+import edu.neu.madcourse.numad22sp_finalproject_feedme.MakeRecommendation.MakeRecommendationActivity;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.UserProfile.UserProfile;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpApiClient;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpBusiness;
@@ -71,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button search = findViewById(R.id.yelp_search);
         Button profileButton = findViewById(R.id.profileButton);
         Button friendsButton = findViewById(R.id.friendsButton);
+        Button feedButton = findViewById(R.id.mainFeedButton);
+        Button recButton = findViewById(R.id.makeRecButton);
 
         price1.setOnClickListener(this);
         price2.setOnClickListener(this);
@@ -79,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         search.setOnClickListener(this);
         profileButton.setOnClickListener(this);
         friendsButton.setOnClickListener(this);
+        feedButton.setOnClickListener(this);
+        recButton.setOnClickListener(this);
 
         cuisine = findViewById(R.id.yelp_cuisine_text);
         location = findViewById(R.id.yelp_location_text);
@@ -136,6 +142,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // friends button shouldn't go directly to find friends, change later
                 Intent friendsIntent = new Intent(this, FindFriendsActivity.class);
                 startActivity(friendsIntent);
+                break;
+            case R.id.mainFeedButton:
+                Intent mainFeedIntent = new Intent(this, MainFeed.class);
+                startActivity(mainFeedIntent);
+                break;
+            case R.id.makeRecButton:
+                Intent makeRecIntent = new Intent(this, MakeRecommendationActivity.class);
+                startActivity(makeRecIntent);
                 break;
 
 
