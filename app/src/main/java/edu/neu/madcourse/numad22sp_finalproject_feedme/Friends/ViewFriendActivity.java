@@ -147,7 +147,7 @@ public class ViewFriendActivity extends AppCompatActivity {
             });
         }
         if (friendState.equals("received request pending")) {
-            requestRef.child(mUser.getUid()).child(id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            requestRef.child(id).child(mUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     HashMap map = new HashMap();
@@ -278,6 +278,7 @@ public class ViewFriendActivity extends AppCompatActivity {
         });
 
         if (friendState.equals("it's complicated")) {
+            friendState = "it's complicated";
             sendButton.setText("Send Friend Request");
             declineButton.setVisibility(View.GONE);
         }
