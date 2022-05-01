@@ -1,15 +1,12 @@
 package edu.neu.madcourse.numad22sp_finalproject_feedme.MainFeed;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import edu.neu.madcourse.numad22sp_finalproject_feedme.MainActivity;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.R;
-import edu.neu.madcourse.numad22sp_finalproject_feedme.UserProfile.UserProfile;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpApiClient;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpBusiness;
 
@@ -17,15 +14,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -36,17 +29,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.CancellationTokenSource;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class MainFeed extends AppCompatActivity {
     private static final String TAG = "MainFeed";
@@ -88,53 +80,35 @@ public class MainFeed extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (checkPermissions()) {
-            getLocation();
-            initBusinesses();
-        }
-    }
-
     @SuppressLint("MissingPermission")
-    private void getLocation() {
+    private void getLocationThenInitFeed() {
         if (checkPermissions()) {
-            fusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
-                Location location = task.getResult();
-                if (location == null) {
-                    getNewLocation();
-                } else {
+            LocationRequest mLocationRequest = new LocationRequest();
+            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            mLocationRequest.setInterval(5);
+            mLocationRequest.setFastestInterval(0);
+            mLocationRequest.setNumUpdates(1);
+            CancellationTokenSource cts = new CancellationTokenSource();
+            Task<Location> locationTask = fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, cts.getToken());
+            locationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(@NonNull Location location) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
+                    new YelpSearch().start();
+                }
+            });
+            locationTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // TODO
+                    Log.e("feed", "location retrieval failed");
                 }
             });
         } else {
             requestPermissions();
         }
     }
-
-    @SuppressLint("MissingPermission")
-    private void getNewLocation() {
-        LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(2);
-        locationRequest.setNumUpdates(1);
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-    }
-
-    private LocationCallback locationCallback = new LocationCallback() {
-
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            Location lastLocation = locationResult.getLastLocation();
-            latitude = lastLocation.getLatitude();
-            longitude = lastLocation.getLongitude();
-        }
-    };
 
     private void requestPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{
@@ -156,7 +130,7 @@ public class MainFeed extends AppCompatActivity {
 
         if (requestCode == 44) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 0) {
-                getLocation();
+                getLocationThenInitFeed();
             }
         }
     }
@@ -225,11 +199,7 @@ public class MainFeed extends AppCompatActivity {
     }
 
     private void initBusinesses() {
-        getLocation();
-
-        if (checkPermissions()) {
-            new YelpSearch().start();
-        }
+        getLocationThenInitFeed();
     }
     private void initRecyclerView(List<YelpBusiness> inBusinesses) {
 
