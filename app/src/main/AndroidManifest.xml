@@ -19,12 +19,25 @@
         <activity
             android:name=".Friends.ViewFriendActivity"
             android:exported="false" />
+                  />
+        <activity
+            android:name=".FriendFeed.FriendFeed"
+            android:exported="false" />
+                  />
         <activity
             android:name=".MakeRecommendation.MakeRecommendationActivity"
             android:exported="false" />
         <activity
             android:name=".Login.LoginActivity"
-            android:exported="false" />
+            android:exported="true" >
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".UserProfile.UserProfile"
             android:exported="false" />

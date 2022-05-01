@@ -1,51 +1,66 @@
 package edu.neu.madcourse.numad22sp_finalproject_feedme.Login;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import edu.neu.madcourse.numad22sp_finalproject_feedme.MakeRecommendation.Recommendation;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.UserProfile.YelpBusinessPreview;
 
 public class User {
     public String fullName, email;
-    public ArrayList<YelpBusinessPreview> favorites;
+    Map<String, String> Friends;
+    Map<String, Recommendation> RecommendationsSent;
+    Map<String, Recommendation> RecommendationsReceived;
 
     public User() {
-        this.favorites = new ArrayList<>();
     }
-
-    public User(String fullName, String email) {
-        this.fullName = fullName;
+    public User(String name, String email) {
+        this.fullName = name;
         this.email = email;
-        this.favorites = new ArrayList<>();
-        favorites.add(new YelpBusinessPreview());
+        this.Friends = new HashMap<>();
+        this.RecommendationsSent = new HashMap<>();
+        this.RecommendationsReceived = new HashMap<>();
     }
 
-    public User(String fullName, String email, ArrayList<YelpBusinessPreview> favorites) {
-        this.fullName = fullName;
-        this.email = email;
-        this.favorites = favorites;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setFavorites(ArrayList<YelpBusinessPreview> favorites) {
-        this.favorites = favorites;
+    public String getFullName() {
+        return fullName;
     }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    public ArrayList<YelpBusinessPreview> getFavorites() {
-        return favorites;
-    }
-
     public String getEmail() {
         return email;
     }
 
-    public String getFullName() {
-        return fullName;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Map<String, String> getFriends() {
+        return Friends;
+    }
+
+    public void setFriends(Map<String, String> friends) {
+        Friends = friends;
+    }
+
+    public Map<String, Recommendation> getRecommendationsSent() {
+        return RecommendationsSent;
+    }
+
+    public void setRecommendationsSent(Map<String, Recommendation> recommendationsSent) {
+        RecommendationsSent = recommendationsSent;
+    }
+
+    public Map<String, Recommendation> getRecommendationsReceived() {
+        return RecommendationsReceived;
+    }
+
+    public void setRecommendationsReceived(Map<String, Recommendation> recommendationsReceived) {
+        RecommendationsReceived = recommendationsReceived;
     }
 }
