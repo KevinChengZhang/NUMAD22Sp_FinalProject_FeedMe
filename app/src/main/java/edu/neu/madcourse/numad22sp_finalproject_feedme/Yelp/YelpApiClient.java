@@ -180,4 +180,27 @@ public class YelpApiClient {
     public List<YelpBusiness> getBusinesses(String term, double latitude, double longitude, String price) {
         return getBusinesses(term,latitude,longitude,price,"best_match");
     }
+
+    // finds a restaurant based off name or returns null if nothing is found
+    public YelpBusiness searchBusiness(String name, String location) {
+        List<YelpBusiness> bus = getBusinesses(name, location, "1,2,3,4");
+
+        for (YelpBusiness business : bus) {
+            if (business.getName().equalsIgnoreCase(name)) {
+                return business;
+            }
+        }
+        return null;
+    }
+
+    public YelpBusiness searchBusiness(String name, double latitude, double longitude) {
+        List<YelpBusiness> bus = getBusinesses(name, latitude, longitude, "1,2,3,4");
+
+        for (YelpBusiness business : bus) {
+            if (business.getName().equalsIgnoreCase(name)) {
+                return business;
+            }
+        }
+        return null;
+    }
 }
