@@ -1,7 +1,9 @@
 package edu.neu.madcourse.numad22sp_finalproject_feedme.MainFeed;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,14 +13,19 @@ import edu.neu.madcourse.numad22sp_finalproject_feedme.UserProfile.UserProfile;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpApiClient;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpBusiness;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -27,6 +34,12 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,20 +67,98 @@ public class MainFeed extends AppCompatActivity {
     private int distanceInd = 0;
     private int retrievalInd = 0;
 
+    private FusedLocationProviderClient fusedLocationClient;
+    private double latitude, longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         progressBar = findViewById(R.id.mainFeedProgressBar);
         initBusinesses();
+
         findViewById(R.id.filterButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              buildFilterPopup();
-
+                buildFilterPopup();
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (checkPermissions()) {
+            getLocation();
+            initBusinesses();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getLocation() {
+        if (checkPermissions()) {
+            fusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
+                Location location = task.getResult();
+                if (location == null) {
+                    getNewLocation();
+                } else {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                }
+            });
+        } else {
+            requestPermissions();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getNewLocation() {
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(2);
+        locationRequest.setNumUpdates(1);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+    }
+
+    private LocationCallback locationCallback = new LocationCallback() {
+
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location lastLocation = locationResult.getLastLocation();
+            latitude = lastLocation.getLatitude();
+            longitude = lastLocation.getLongitude();
+        }
+    };
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+    }
+
+    private boolean checkPermissions() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void
+    onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 44) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 0) {
+                getLocation();
+            }
+        }
     }
 
     private void buildFilterPopup() {
@@ -126,7 +217,7 @@ public class MainFeed extends AppCompatActivity {
                 String priceConformed = String.join(",", values);
                 price = priceConformed;
                 progressBar.setVisibility(View.VISIBLE);
-                new YelpSearch().start();
+                new YelpSearch(orderType, milesDist).start();
             }
         });
         alertDialog = builder.create();
@@ -134,7 +225,11 @@ public class MainFeed extends AppCompatActivity {
     }
 
     private void initBusinesses() {
-        new YelpSearch().start();
+        getLocation();
+
+        if (checkPermissions()) {
+            new YelpSearch().start();
+        }
     }
     private void initRecyclerView(List<YelpBusiness> inBusinesses) {
 
@@ -164,12 +259,22 @@ public class MainFeed extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
     private class YelpSearch extends Thread {
+        private String retrieval;
+        private int distance;
 
+        YelpSearch() {
+            retrieval = "Delivery";
+            distance = 20;
+        }
 
+        YelpSearch (String retrevial, int distance) {
+            this.retrieval = retrevial;
+            this.distance = distance;
+        }
         @Override
         public void run() {
             YelpApiClient yelpApiClient = new YelpApiClient();
-            List<YelpBusiness> bus = yelpApiClient.getBusinesses(term, location, price, sortItemsAPIName[sortInd]);
+            List<YelpBusiness> bus = yelpApiClient.getBusinesses(term, latitude, longitude, price, sortItemsAPIName[sortInd]);
 
             // In this basic yelp api implementation, yelp will return the same JSON every time
             // if the parameters aren't changed.
@@ -181,15 +286,39 @@ public class MainFeed extends AppCompatActivity {
                     runOnUiThread(() -> toast.show());
                 });
             } else {
+                double meters = mileToMeter(distance);
+                List<YelpBusiness> filtered = filter(bus, retrieval, meters);
+                if (filtered.size() <= 0) {
+                    runOnUiThread(() -> {
+                        CharSequence tryAgain = "Failed to find restaurants that fit the filter. Please try again";
+                        Toast toast = Toast.makeText(getApplicationContext(), tryAgain, Toast.LENGTH_LONG);
+                        runOnUiThread(() -> toast.show());
+                    });
+                }
 
                 handler.post(() -> {
                     if(recyclerView != null) {
-                        refillRecyclerView(bus);
+                        refillRecyclerView(filtered);
                     } else {
                         initRecyclerView(bus);
                     }
                 });
             }
+        }
+
+        private double mileToMeter(int mile) {
+            return mile * 1609.34;
+        }
+
+        private List<YelpBusiness> filter(List<YelpBusiness> businesses,String orderType, double meters) {
+            List<YelpBusiness> filtered = new ArrayList<YelpBusiness>();
+            for (YelpBusiness business: businesses) {
+                if (business.getDistance() <= meters && business.getTransactions().contains(orderType.toLowerCase())) {
+                    filtered.add(business);
+                }
+            }
+
+            return filtered;
         }
     }
 
