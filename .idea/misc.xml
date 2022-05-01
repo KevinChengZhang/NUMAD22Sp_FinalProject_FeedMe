@@ -20,8 +20,12 @@
         <entry key="..\:/Users/imdan/AndroidStudioProjects/NUMAD22Sp_FinalProject_FeedMe/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/layout/main_feed_card.xml" value="0.1" />
         <entry key="..\:/Users/kevin/AndroidStudioProjects/NUMAD22Sp_FinalProject_FeedMe/app/src/main/res/layout/activity_main.xml" value="0.22644927536231885" />
         <entry key="app/src/main/res/drawable/decline_request_button.xml" value="0.171" />
-        <entry key="app/src/main/res/layout/activity_find_friends.xml" value="0.13496376811594202" />
+        <entry key="app/src/main/res/drawable/search_bar.xml" value="0.1835" />
+        <entry key="app/src/main/res/drawable/send_request_button.xml" value="0.1835" />
+        <entry key="app/src/main/res/layout/activity_find_friends.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_friend_feed.xml" value="0.17603850050658562" />
         <entry key="app/src/main/res/layout/activity_friends_display.xml" value="0.13496376811594202" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.17603850050658562" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.13496376811594202" />
         <entry key="app/src/main/res/layout/activity_register_user.xml" value="0.13496376811594202" />
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.19010416666666666" />
