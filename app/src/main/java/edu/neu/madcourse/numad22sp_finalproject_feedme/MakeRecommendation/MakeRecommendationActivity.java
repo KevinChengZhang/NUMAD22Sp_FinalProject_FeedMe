@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class MakeRecommendationActivity extends AppCompatActivity {
     private EditText restaurantNameET, ratingET, commentsET;
     private Spinner recSpinner;
     private Button sendButton;
+    private ProgressBar progressBar;
     private List<String> friendIDs = new ArrayList<>();
     private List<String> friendNames = new ArrayList<>();
     private FusedLocationProviderClient fusedLocationClient;
@@ -67,6 +69,7 @@ public class MakeRecommendationActivity extends AppCompatActivity {
         restaurantNameET = findViewById(R.id.recName);
         ratingET = findViewById(R.id.recRating);
         commentsET = findViewById(R.id.recComments);
+        progressBar = findViewById(R.id.rec_progress_bar);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         InitSpinner();
@@ -75,6 +78,7 @@ public class MakeRecommendationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AttemptRecommendation();
+                progressBar.setVisibility(view.VISIBLE);
             }
         });
     }
@@ -164,6 +168,7 @@ public class MakeRecommendationActivity extends AppCompatActivity {
                 .setValue(recommendation).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                progressBar.setVisibility(View.INVISIBLE);
                 if(task.isSuccessful()) {
                     Toast.makeText(MakeRecommendationActivity.this, "Recommendation Sent!", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(MakeRecommendationActivity.this, MainActivity.class));
@@ -227,7 +232,9 @@ public class MakeRecommendationActivity extends AppCompatActivity {
         public void run() {
             YelpApiClient yelpApiClient = new YelpApiClient();
             YelpBusiness bus = yelpApiClient.searchBusiness(restaurantName, latitude, longitude);
-
+            if (bus == null) {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
             handler.post(() -> {
                 verifyBusinessThenTryRecommendation(bus);
             });
