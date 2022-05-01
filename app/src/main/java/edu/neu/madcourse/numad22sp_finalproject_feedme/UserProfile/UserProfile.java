@@ -61,7 +61,8 @@ public class UserProfile extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     userProfile = snapshot.getValue(User.class);
-                    busList.addAll(userProfile.getFavorites());
+
+                    busList.addAll(userProfile.getRecommendationsSent().values().toArray());
                     updateProfile();
                 }
 
