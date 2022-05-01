@@ -54,7 +54,7 @@ public class FriendFeed extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.friendfeedrecycler);
         LinearLayoutManager recyclerLayout = new LinearLayoutManager(recyclerView.getContext());
-        recyclerLayout.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerLayout.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(recyclerLayout);
 
         adapter = new FriendFeedRVAdapter(receivedRecommendations, busList);
