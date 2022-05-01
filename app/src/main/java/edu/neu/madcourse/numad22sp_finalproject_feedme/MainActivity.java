@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         cuisine = findViewById(R.id.yelp_cuisine_text);
         location = findViewById(R.id.yelp_location_text);
-        result = findViewById(R.id.yelp_result_text);
         progressBar = findViewById(R.id.yelp_progress_bar);
     }
 
@@ -229,8 +228,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     progressBar.setVisibility(View.INVISIBLE);
 
                     // Randomly pick a business from a returned JSON
-                    String bus_name = bus.get(rng).getName();
-                    result.setText("Result: " + bus_name);
                     buildFilterPopup(bus.get(rng));
                 });
             }
