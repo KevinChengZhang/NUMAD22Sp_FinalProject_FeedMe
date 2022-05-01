@@ -1,7 +1,5 @@
 package edu.neu.madcourse.numad22sp_finalproject_feedme;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,13 +12,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import edu.neu.madcourse.numad22sp_finalproject_feedme.FriendFeed.FriendFeed;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Friends.FindFriendsActivity;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.MainFeed.MainFeed;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.MakeRecommendation.MakeRecommendationActivity;
@@ -75,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button friendsButton = findViewById(R.id.friendsButton);
         Button feedButton = findViewById(R.id.mainFeedButton);
         Button recButton = findViewById(R.id.makeRecButton);
+        Button friendFeedButton = findViewById(R.id.friendFeedButton);
 
         price1.setOnClickListener(this);
         price2.setOnClickListener(this);
@@ -85,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         friendsButton.setOnClickListener(this);
         feedButton.setOnClickListener(this);
         recButton.setOnClickListener(this);
+        friendFeedButton.setOnClickListener(this);
 
         cuisine = findViewById(R.id.yelp_cuisine_text);
         location = findViewById(R.id.yelp_location_text);
@@ -150,6 +150,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.makeRecButton:
                 Intent makeRecIntent = new Intent(this, MakeRecommendationActivity.class);
                 startActivity(makeRecIntent);
+                break;
+            case R.id.friendFeedButton:
+                Intent makeFriendFeedIntent = new Intent(this, FriendFeed.class);
+                startActivity(makeFriendFeedIntent);
                 break;
 
 
