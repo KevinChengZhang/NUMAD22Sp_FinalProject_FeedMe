@@ -203,4 +203,51 @@ public class YelpApiClient {
         }
         return null;
     }
+
+    public YelpBusiness getBusinessById(String id) {
+        String endpoint = "https://api.yelp.com/v3/businesses/" + id;
+        BufferedReader reader;
+        String line;
+        StringBuilder responseContent = new StringBuilder();
+
+        YelpBusiness business = null;
+
+        try{
+            Log.e(TAG, "Running HTTP GET Request...");
+            URL url = new URL(endpoint);
+            Log.e(TAG, String.valueOf(url));
+
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Accept", "application/json");
+            conn.addRequestProperty("Authorization", "Bearer " + apiKey);
+            conn.setRequestMethod("GET");
+            Log.e(TAG, "status code for yelp api: "+ conn.getResponseCode());
+
+            if (conn.getResponseCode() != 200) {
+                return business;
+            }
+
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+
+            JSONObject jObject =  new JSONObject(responseContent.toString());
+
+            business = new YelpBusiness(jObject);
+
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.e(TAG, business.toString());
+        return business;
+    }
 }
