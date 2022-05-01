@@ -228,6 +228,7 @@ public class MainFeed extends AppCompatActivity {
         feedAdapter.notifyDataSetChanged();
         progressBar.setVisibility(View.GONE);
     }
+
     private class YelpSearch extends Thread {
         private String retrieval;
         private int distance;

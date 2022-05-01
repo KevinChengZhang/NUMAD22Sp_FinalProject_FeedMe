@@ -9,12 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.io.InputStream;
+import java.util.List;
+
 import edu.neu.madcourse.numad22sp_finalproject_feedme.R;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpBusiness;
 
@@ -66,7 +66,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedHolder> {
     public int getItemCount() {
         return businesses.size();
     }
-    private class DownloadImageFromInternet extends AsyncTask<String, Void, Bitmap> {
+    public static class DownloadImageFromInternet extends AsyncTask<String, Void, Bitmap> {
         ImageView imageView;
         public DownloadImageFromInternet(ImageView imageView) {
             this.imageView=imageView;
