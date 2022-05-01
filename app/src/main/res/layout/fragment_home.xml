@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainMenu.ui.home.HomeFragment">
+
+    <TextView
+        android:id="@+id/recommendationTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:fontFamily="sans-serif-black"
+        android:textColor="#858585"
+        android:text="Pick For Me!"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/yelp_location_text"
+        android:layout_width="276dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:hint="@string/location"
+        android:minHeight="48dp"
+        android:onClick="onClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yelp_cuisine_text" />
+
+    <EditText
+        android:id="@+id/yelp_cuisine_text"
+        android:layout_width="278dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:hint="@string/cuisine"
+        android:minHeight="48dp"
+        android:onClick="onClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.464"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recommendationTitle" />
+
+    <Button
+        android:id="@+id/yelp_price_1"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:onClick="onClick"
+        android:padding="0dp"
+        android:text="@string/currency_1"
+        app:layout_constraintEnd_toStartOf="@+id/yelp_price_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yelp_location_text" />
+
+    <Button
+        android:id="@+id/yelp_price_2"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:padding="0dp"
+        android:text="@string/currency_2"
+        app:layout_constraintEnd_toStartOf="@+id/yelp_price_3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/yelp_price_1"
+        app:layout_constraintTop_toTopOf="@+id/yelp_price_1" />
+
+    <Button
+        android:id="@+id/yelp_price_4"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:padding="0dp"
+        android:text="@string/currency_4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/yelp_price_3"
+        app:layout_constraintTop_toTopOf="@+id/yelp_price_1" />
+
+    <Button
+        android:id="@+id/yelp_price_3"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:padding="0dp"
+        android:text="@string/currency_3"
+        app:layout_constraintEnd_toStartOf="@+id/yelp_price_4"
+        app:layout_constraintStart_toEndOf="@id/yelp_price_2"
+        app:layout_constraintTop_toTopOf="@+id/yelp_price_1" />
+
+    <ProgressBar
+        android:id="@+id/yelp_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="54dp"
+        android:layout_height="47dp"
+        android:indeterminate="true"
+        android:onClick="onClick"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45" />
+
+    <Button
+        android:id="@+id/yelp_search"
+        android:layout_width="215dp"
+        android:layout_height="69dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="onClick"
+        android:text="@string/search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yelp_price_2"
+        app:layout_constraintVertical_bias="0.809" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.numad22sp_finalproject_feedme">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,21 +12,22 @@
         android:theme="@style/Theme.NUMAD22Sp_FinalProject_FeedMe"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".MainMenu.MainMenu"
+            android:exported="false"
+            android:label="@string/title_activity_main_menu"
+            android:theme="@style/Theme.NUMAD22Sp_FinalProject_FeedMe.NoActionBar" />
+        <activity
             android:name=".Friends.ViewFriendActivity"
             android:exported="false" />
-                  />
         <activity
             android:name=".FriendFeed.FriendFeed"
             android:exported="false" />
-                  />
         <activity
             android:name=".MakeRecommendation.MakeRecommendationActivity"
             android:exported="false" />
         <activity
             android:name=".Login.LoginActivity"
-            android:exported="true" >
-
-
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,10 +51,15 @@
         </activity>
         <activity
             android:name=".MainFeed.MainFeed"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".Friends.FindFriendsActivity"
             android:exported="false" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

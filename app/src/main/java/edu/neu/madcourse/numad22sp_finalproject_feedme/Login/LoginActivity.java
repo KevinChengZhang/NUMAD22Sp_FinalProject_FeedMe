@@ -3,6 +3,7 @@ package edu.neu.madcourse.numad22sp_finalproject_feedme.Login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.MainActivity;
+import edu.neu.madcourse.numad22sp_finalproject_feedme.MainMenu.MainMenu;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.R;
 
 import android.content.Intent;
@@ -46,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() != null) {
-            Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent mainIntent = new Intent(LoginActivity.this, MainMenu.class);
             startActivity(mainIntent);
         }
     }
@@ -94,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()) {
-                    Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent MainIntent = new Intent(LoginActivity.this, MainMenu.class);
                     MainIntent.putExtra("USER_EMAIL", email);
                     startActivity(MainIntent);
                 } else {
