@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import java.util.HashMap;
 
+import edu.neu.madcourse.numad22sp_finalproject_feedme.MakeRecommendation.MakeRecommendationActivity;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.R;
 
 public class ViewFriendActivity extends AppCompatActivity {
@@ -71,6 +73,45 @@ public class ViewFriendActivity extends AppCompatActivity {
         });
 
         userExists(userID);
+
+        declineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unfriend(userID);
+            }
+        });
+    }
+
+    private void unfriend(String id) {
+        if (friendState.equals("friends")) {
+            friendRef.child(mUser.getUid()).child(id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    friendRef.child(id).child(mUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(ViewFriendActivity.this, "Friend Removed", Toast.LENGTH_SHORT).show();
+                            friendState = "it's complicated";
+                            sendButton.setText("Send Friend Request");
+                            declineButton.setVisibility(View.GONE);
+                        }
+                    });
+                }
+            });
+        }
+        if (friendState.equals("received request pending")) {
+            HashMap map = new HashMap();
+            map.put("status", "declined");
+            requestRef.child(id).child(mUser.getUid()).updateChildren(map).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    Toast.makeText(ViewFriendActivity.this, "Friend Request Declined", Toast.LENGTH_SHORT).show();
+                    friendState = "received request declined";
+                    sendButton.setVisibility(View.GONE);
+                    declineButton.setVisibility(View.GONE);
+                }
+            });
+        }
     }
 
     private void getUser() {
@@ -142,7 +183,16 @@ public class ViewFriendActivity extends AppCompatActivity {
             });
         }
         if (friendState.equals("friends")) {
-            // send recommendation
+            HashMap map = new HashMap();
+            map.put("status", "friend");
+            map.put("friendFullName", friendFullName);
+            friendRef.child(mUser.getUid()).child(id).updateChildren(map).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    Intent intent = new Intent(ViewFriendActivity.this, MakeRecommendationActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
     }
 
@@ -228,7 +278,6 @@ public class ViewFriendActivity extends AppCompatActivity {
         });
 
         if (friendState.equals("it's complicated")) {
-            friendState = "";
             sendButton.setText("Send Friend Request");
             declineButton.setVisibility(View.GONE);
         }

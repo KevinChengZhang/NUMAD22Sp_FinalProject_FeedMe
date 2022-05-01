@@ -1,4 +1,5 @@
 package edu.neu.madcourse.numad22sp_finalproject_feedme.Friends;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -32,6 +35,8 @@ public class FindFriendsActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<FindFriends, FindFriendsViewHolder> firebaseRecyclerAdapter;
 
     private DatabaseReference usersDatabaseRef;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,8 @@ public class FindFriendsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_find_friends);
 
         usersDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
 
         searchResultList = (RecyclerView) findViewById(R.id.searchResultList);
         searchResultList.setHasFixedSize(true);
@@ -74,10 +81,15 @@ public class FindFriendsActivity extends AppCompatActivity {
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<FindFriends, FindFriendsViewHolder>(options)
         {
             @Override
-            protected void onBindViewHolder(@NonNull FindFriendsViewHolder holder, int position, @NonNull FindFriends model) {
-                holder.setFullName(model.getFullName());
-                holder.setEmail(model.getEmail());
-                System.out.println(model.getFullName());
+            protected void onBindViewHolder(@NonNull FindFriendsViewHolder holder, @SuppressLint("RecyclerView") int position, @NonNull FindFriends model) {
+                if (mUser.getUid().equals(getRef(position).getKey().toString())) {
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+                }
+                else {
+                    holder.setFullName(model.getFullName());
+                    holder.setEmail(model.getEmail());
+                }
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
