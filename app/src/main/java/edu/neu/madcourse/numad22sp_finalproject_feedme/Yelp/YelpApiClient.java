@@ -55,6 +55,10 @@ public class YelpApiClient {
             sortBy = "best_match";
         }
 
+        if (price.length() < 0 || price == null) {
+            price = "1,2,3,4";
+        }
+
         try{
             Log.e(TAG, "Running HTTP GET Request...");
             URL url = new URL(String.format(base + "term=%s&location=%s&price=%s&sort_by=%s", term, location, price, sortBy));
