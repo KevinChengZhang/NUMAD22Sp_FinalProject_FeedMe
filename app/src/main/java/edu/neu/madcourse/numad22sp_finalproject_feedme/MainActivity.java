@@ -163,6 +163,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.mainLogoutButton:
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(MainActivity.this, "Signed out successfully!", Toast.LENGTH_LONG).show();
+                Intent toLogin = new Intent(this, LoginActivity.class);
+                startActivity(toLogin);
                 break;
 
 
