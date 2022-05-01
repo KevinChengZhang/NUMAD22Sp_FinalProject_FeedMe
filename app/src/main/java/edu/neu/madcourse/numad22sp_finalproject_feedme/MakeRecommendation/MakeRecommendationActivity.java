@@ -229,6 +229,5 @@ public class MakeRecommendationActivity extends AppCompatActivity {
                 verifyBusinessThenTryRecommendation(bus);
             });
         }
-
     }
 }

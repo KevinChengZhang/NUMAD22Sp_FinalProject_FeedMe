@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +23,8 @@ import java.util.List;
 
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Login.User;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.R;
+import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpApiClient;
+import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpBusiness;
 
 public class UserProfile extends AppCompatActivity {
     private User userProfile;
@@ -29,6 +32,7 @@ public class UserProfile extends AppCompatActivity {
     private YelpPreviewAdapter adapter;
     TextView fullNameTextView;
     TextView emailTextView;
+    private Handler handler = new Handler();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users")
             .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     private static final String PROFILE_KEY = "PROFILE_KEY";
@@ -61,9 +65,9 @@ public class UserProfile extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     userProfile = snapshot.getValue(User.class);
-
-                    busList.addAll(userProfile.getRecommendationsSent().values().toArray());
-                    updateProfile();
+                    fullNameTextView.setText(userProfile.getFullName());
+                    emailTextView.setText(userProfile.getEmail());
+                    userProfile.getRecommendationsSent().values().forEach(rec -> new YelpSearch(rec.getRestaurantID()).start());
                 }
 
                 @Override
@@ -74,9 +78,22 @@ public class UserProfile extends AppCompatActivity {
         }
     }
 
-    private void updateProfile() {
-        adapter.notifyDataSetChanged();
-        fullNameTextView.setText(userProfile.getFullName());
-        emailTextView.setText(userProfile.getEmail());
+
+    private class YelpSearch extends Thread {
+        private String id;
+
+        YelpSearch(String id) {
+            this.id = id;
+        }
+        @Override
+        public void run() {
+            YelpApiClient yelpApiClient = new YelpApiClient();
+            YelpBusiness bus = yelpApiClient.getBusinessById(id);
+
+            handler.post(() -> {
+                busList.add(new YelpBusinessPreview(bus));
+                adapter.notifyDataSetChanged();
+            });
+        }
     }
 }
