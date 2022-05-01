@@ -1,27 +1,27 @@
 package edu.neu.madcourse.numad22sp_finalproject_feedme.UserProfile;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.os.Handler;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Login.User;
+import edu.neu.madcourse.numad22sp_finalproject_feedme.MakeRecommendation.Recommendation;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.R;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpApiClient;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpBusiness;
@@ -67,7 +67,11 @@ public class UserProfile extends AppCompatActivity {
                     userProfile = snapshot.getValue(User.class);
                     fullNameTextView.setText(userProfile.getFullName());
                     emailTextView.setText(userProfile.getEmail());
-                    userProfile.getRecommendationsSent().values().forEach(rec -> new YelpSearch(rec.getRestaurantID()).start());
+                    Map<String, Recommendation> recommendationSent = userProfile.getRecommendationsSent();
+                    if(recommendationSent != null) {
+                        recommendationSent.values().forEach(rec -> new YelpSearch(rec.getRestaurantID()).start());
+                    }
+
                 }
 
                 @Override
