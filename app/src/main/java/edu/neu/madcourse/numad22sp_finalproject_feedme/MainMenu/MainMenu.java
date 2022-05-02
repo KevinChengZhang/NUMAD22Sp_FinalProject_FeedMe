@@ -90,10 +90,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_main_menu,
-                        new HomeFragment()).commit();
-                break;
             case R.id.nav_friends:
                 // friends button shouldn't go directly to find friends, change later
                 Intent friendsIntent = new Intent(this, FindFriendsActivity.class);
