@@ -3,6 +3,7 @@ package edu.neu.madcourse.numad22sp_finalproject_feedme.Login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.MainActivity;
+import edu.neu.madcourse.numad22sp_finalproject_feedme.MainMenu.MainMenu;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.R;
 
 import android.content.Intent;
@@ -108,7 +109,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()) {
                                         Toast.makeText(RegisterUserActivity.this, "User has been registered successfully!", Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(RegisterUserActivity.this, MainActivity.class));
+                                        startActivity(new Intent(RegisterUserActivity.this, MainMenu.class));
                                     } else {
                                         Toast.makeText(RegisterUserActivity.this, "Failed to register! Try again!", Toast.LENGTH_LONG).show();
                                     }

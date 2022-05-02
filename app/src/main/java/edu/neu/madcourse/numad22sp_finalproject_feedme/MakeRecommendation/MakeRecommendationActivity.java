@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Login.RegisterUserActivity;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.MainActivity;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.MainFeed.MainFeed;
+import edu.neu.madcourse.numad22sp_finalproject_feedme.MainMenu.MainMenu;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.R;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpApiClient;
 import edu.neu.madcourse.numad22sp_finalproject_feedme.Yelp.YelpBusiness;
@@ -171,7 +172,7 @@ public class MakeRecommendationActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.INVISIBLE);
                 if(task.isSuccessful()) {
                     Toast.makeText(MakeRecommendationActivity.this, "Recommendation Sent!", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(MakeRecommendationActivity.this, MainActivity.class));
+                    startActivity(new Intent(MakeRecommendationActivity.this, MainMenu.class));
                 } else {
                     Toast.makeText(MakeRecommendationActivity.this, "Recommendation Failed! Try again!", Toast.LENGTH_LONG).show();
                 }

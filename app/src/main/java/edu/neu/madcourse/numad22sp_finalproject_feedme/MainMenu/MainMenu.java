@@ -85,13 +85,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                      }
                  }
         );
-
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_main_menu,
-                    new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
-        }
     }
 
     @Override
